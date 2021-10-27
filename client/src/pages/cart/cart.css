@@ -1,0 +1,21 @@
+.cart-img {
+  width: 40%;
+}
+table {
+  margin-bottom: 3%;
+}
+.cart-content {
+  /*background: linear-gradient(#faf6ee, #bcdcbd);*/
+  background-color: #faf6ee;
+  padding-top: 120px;
+  padding-bottom: 3em;
+  min-height: 75vh;
+}
+.cart-top {
+  padding-top: 1em;
+  background-color: #faf6ee;
+}
+#cart-total {
+  font-size: 15px;
+  font-weight: bold;
+}

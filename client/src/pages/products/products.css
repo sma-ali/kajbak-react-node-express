@@ -1,0 +1,45 @@
+.products-intro{
+    padding-top: 125px;
+    justify-content: center;
+}
+.products-filter{
+    background-color: #faf6ee;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+.title-col {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 2em;
+    color: #0f6860;
+}
+
+.products-filter > input[type="checkbox"] {
+  display: none;
+}
+.products-content{
+    background-color: #bcdcbd;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+.row-filter-products {
+  box-shadow: 0px 0px 5px black;
+}
+
+@media (max-width: 991px) { 
+  .products-filter > label {
+    display: block;
+  }
+  .products-filter > label:after {
+    content: ' ▼';
+  }
+  .products-filter > label + div {
+    display: none;
+  }
+  .products-filter > input[type="checkbox"]:checked + label + div {
+    display: block;
+  }
+  .products-filter > input[type="checkbox"]:checked + label::after {
+    content: ' ▲';
+  }
+}

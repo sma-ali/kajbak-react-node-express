@@ -1,0 +1,32 @@
+body {
+  margin: 0;
+  font-family: 'Rajdhani', sans-serif;
+}
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+.navbar{
+  background-color: #faf6ee;
+  padding: 0.5rem 1rem;
+  align-items: center;
+  box-shadow: 0px 0px 5px black;
+  position: fixed;
+  width: 100%;
+  z-index: 99;
+}
+.dropdown-menu{
+  background-color: #faf6ee;
+}
+#estimation-nav {
+  background-color: #0f6860;
+  padding-left: 1em;
+}
+#panier-logo {
+padding-left: 10px;
+width: 50px;
+}
+.liennav{
+  position: relative;
+  justify-content: center;
+}

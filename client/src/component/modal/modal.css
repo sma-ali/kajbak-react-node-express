@@ -1,0 +1,14 @@
+.modal-content{
+    background-color: #0f6860;
+    color: aliceblue;
+}
+.btn-suivant {
+    width: 50%;
+    font-size: 20px;
+    background-color: #bcdcbd;
+    color: #0f6860;
+    border-color: #bcdcbd;
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+  }

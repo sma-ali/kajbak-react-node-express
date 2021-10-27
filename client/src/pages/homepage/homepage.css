@@ -1,0 +1,109 @@
+body {
+  margin: 0;
+  font-family: 'Arial';
+
+}
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+h1{
+  font-family: 'Rajdhani', sans-serif;
+  color: #0f6860;
+}
+.bigtitle {
+  margin-left: 10%;
+}
+
+p{
+  font-family: 'Poppins', sans-serif;
+}
+#e1{
+  background-color: #faf6ee;
+}
+
+#e2{
+  background-color: #bcdcbd;
+  box-shadow: 0px 0px 5px black;
+}
+
+#e3{
+  background-color: #faf6ee;
+  box-shadow: 0px 0px 5px black;
+}
+#e1, #e2, #e3{
+  max-width: 100%;
+  height: 50%;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+.description{
+  margin-left: 10%;
+  width: 80%;
+}
+
+#estimation {
+  width: 50%;
+  font-size: 20px;
+  background-color: #0f6860;
+  border-color: #bcdcbd;
+  display: block;
+  margin-left: auto;
+  margin-right: auto
+}
+.homepage-img-qfn{
+  position: relative;
+  text-align:center;
+  justify-content: center;
+}
+.img-size{
+  width: 171px;
+  height: 180px;
+}
+.avis {
+  min-height: 160px;
+}
+.avis-consommateur {
+  font-size: 15px;
+  font-style: italic;
+}
+video{
+  width: 100%;
+}
+
+@media (max-width: 1270px) { 
+  .img-size{
+    width: 90%;
+  }
+  .avis {
+    min-height: 300px;
+  }
+
+}
+@media (max-width: 991px) { 
+  video{
+    padding-top: 110px;
+  }
+}
+@media (max-width: 768px) { 
+  .img-size{
+    width: 171px;
+    height: 180px;
+  }
+  #e1, #e2, #e3{
+    max-width: 100%;
+    height: 50%;
+  }
+  .description{
+    margin-left: 0%;
+    width: 100%;
+  }
+  .bigtitle {
+    margin-left: 0%;
+  }
+  .avis {
+    padding-top: 4em;
+    min-height: 0px;
+  }
+}

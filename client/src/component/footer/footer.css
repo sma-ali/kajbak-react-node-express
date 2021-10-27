@@ -1,0 +1,75 @@
+Navbar {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+
+body{
+    font-family: 'Poppins Regular', sans-serif;
+}
+#estimation-nav {
+    background-color: #0f6860;
+}
+
+.position {
+    display: flex;
+    justify-content: space-evenly;
+    padding-top: 30px;
+    
+}
+
+.footer {
+    background-color: #bcdcbd;
+    padding-bottom: 2em;
+    box-shadow: 0px 0em 5px black;
+    position: relative;
+    bottom: 0; left: 0; right: 0
+}
+
+.footer-links{
+    padding-top: 10px;
+}
+
+.footer-contact{
+    padding-top: 10px;
+}
+
+.footer-links, .footer-contact {
+    flex-direction: column;
+    display: flex;
+}
+
+.footer-social-network{
+    padding-top: 10px;
+}
+
+.footer-logo{
+    width:  64px;
+    height: 64px;
+    background-size: cover;
+    margin: 2%;
+}
+
+@media (max-width: 576px) { 
+    .footer {
+        text-align: center;
+    }
+}
+
+.darkgreen{
+    color:#0f6860;
+}
+
+a{
+    color:black;
+    text-decoration: none;
+}
+
+a:hover{
+    color:#0f6860;
+}
+
+.bloc-footer-2 {
+padding-top: 1em;
+}
