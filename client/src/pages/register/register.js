@@ -113,7 +113,7 @@ function Register() {
                 <Form.Group controlId="formBasicFirstName">
                   <Form.Label>Prénom</Form.Label>
                   <Form.Control
-                    type="firstname"
+                    type="text"
                     value={firstname}
                     onChange={(e) => setFirstName(e.target.value)}
                   />
@@ -122,7 +122,7 @@ function Register() {
                 <Form.Group controlId="formBasicLastName">
                   <Form.Label>Nom</Form.Label>
                   <Form.Control
-                    type="lastname"
+                    type="text"
                     value={lastname}
                     onChange={(e) => setLastName(e.target.value)}
                   />
@@ -157,7 +157,7 @@ function Register() {
                 <Form.Group controlId="formBasicAddress">
                   <Form.Label>Adresse</Form.Label>
                   <Form.Control
-                    type="address"
+                    type="text"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                   />
@@ -166,7 +166,7 @@ function Register() {
                 <Form.Group controlId="formBasicCity">
                   <Form.Label>Ville</Form.Label>
                   <Form.Control
-                    type="address"
+                    type="text"
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
                   />
@@ -175,7 +175,7 @@ function Register() {
                 <Form.Group controlId="formBasicZip">
                   <Form.Label>Code Postal</Form.Label>
                   <Form.Control
-                    type="address"
+                    type="number"
                     value={zip}
                     onChange={(e) => setZip(e.target.value)}
                   />
@@ -184,7 +184,7 @@ function Register() {
                 <Form.Group controlId="formBasicPhoneNumber">
                   <Form.Label>Numéro de téléphone</Form.Label>
                   <Form.Control
-                    type="phonenumber"
+                    type="tel"
                     value={phonenumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
                   />

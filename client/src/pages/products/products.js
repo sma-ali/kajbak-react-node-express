@@ -12,8 +12,20 @@ import {
 } from "react-bootstrap";
 import NavBar from "../../component/navbar/navbar";
 import Footer from "../../component/footer/footer";
+import Axios from "axios";
 
 function Products() {
+
+  const [products, setProducts] = useState([]);
+
+  Axios.defaults.withCredentials = true;
+
+  const getProducts = () => {
+    Axios.get("http://localhost:3001/select-products").then((response) => {
+      setProducts(response.data)
+    });
+  };
+
   // on initialise les hooks
 
   // const [products, setProducts] = useState([]);
@@ -48,9 +60,9 @@ function Products() {
   //   }
   // }
 
-  // useEffect(() => {
-  //   getProducts();
-  // }, []);
+   useEffect(() => {
+     getProducts();
+   }, []);
 
   return (
     <div>
@@ -107,7 +119,7 @@ function Products() {
                 </Form.Group>
                 <hr />
                 <Button
-                  // onClick={getProducts}
+                  onClick={getProducts}
                   style={{ backgroundColor: "#0f6860" }}
                 >
                   Trier les produits
@@ -119,34 +131,34 @@ function Products() {
             <p className="title-col">Les derniers produits</p>
             <div>
               <Row className="justify-content-around">
-                {/* {products.map((product) => { 
-                  return ( */}
+                 {products.map((product) => { 
+                  return ( 
                     <Card
                       style={{
                         width: "18rem",
                         margin: "10px",
                       }}
-                      // key={product.id}
+                      key={product.id_product}
                     >
                       <Card.Img
                         variant="top"
                         width={171}
                         height={280}
-                        // src={product.url}
+                        src={`products_img/${product.img_product}`}
                       />
                       <Card.Body>
-                        <Card.Title></Card.Title>
-                        <Card.Text></Card.Text>
+                        <Card.Title>{product.name_product}</Card.Title>
+                        <Card.Text>{product.description}</Card.Text>
                         <Button
-                          // href={`product/${product.id}`}
+                          href={`product/${product.id_product}`}
                           style={{ backgroundColor: "#0f6860" }}
                         >
                           Voir le produit &gt;
                         </Button>
                       </Card.Body>
                     </Card>
-                   {/* );
-                 })} */}
+                    );
+                 })} 
               </Row>
             </div>
           </Col>

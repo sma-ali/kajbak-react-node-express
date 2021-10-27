@@ -216,6 +216,60 @@ app.delete(`/delete/:id`, (req, res) => {
   });
 });
 
+//Select products
+app.get("/select-products", (req, res) => {
+  db.query("SELECT * FROM products WHERE state = 1", (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+//Insert products
+app.get("/insert-products", (req, res) => {
+  const product_name = req.body.product_name;
+  const product_leading = req.body.product_leading;
+  const category = req.body.category;
+  const description = req.body.description;
+  const price = req.body.price;
+  const product_img = req.body.product_img;
+  db.query(
+    "INSERT INTO products (product_name, product_leading, category, description, price, product_img, state) VALUES(?, ?, ?, ?, ?, ?, ?)",
+    [product_name, product_leading, category, description, price, product_img, 1],
+    (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+//Update products
+app.get("/update-products", (req, res) => {
+  db.query("SELECT * FROM products WHERE state = 1", (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+//Delete products
+app.get("/delete-products", (req, res) => {
+  const id = req.params.id;
+  db.query("DELETE FROM products WHERE id_product = ?", id, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(result);
+    }
+  });
+});
+
 app.listen(3001, () => {
   console.log("server running on port 3001...");
 });

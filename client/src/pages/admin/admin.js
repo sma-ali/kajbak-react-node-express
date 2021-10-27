@@ -1,19 +1,20 @@
 import { Button, Table, Card } from "react-bootstrap";
 import React, { useState, useEffect, useContext, useRef } from "react";
 import NavBar from "../../component/navbar/navbar";
-import { v4 as uuidv4 } from "uuid";
+//import { v4 as uuidv4 } from "uuid";
 import "./admin.css";
+import Axios from "axios";
 
 const Admin = () => {
   // initialisation des hooks
 
   const [products, setProducts] = useState([]);
-  const [title, setTitle] = useState("");
-  const [desc, setDesc] = useState("");
+  const [product_name, setName] = useState("");
+  const [product_leading, setLeading] = useState("");
+  const [description, setDescription] = useState("");
   const [category, setCategory] = useState("Intérieur");
   const [price, setPrice] = useState(null);
-  const [leading, setLeading] = useState("");
-  const [url, setUrl] = useState("");
+  //const [product_img, setUrl] = useState("");
 
   // on définit des réf pour pouvoir réinitialiser
   // le formulaire d'ajout de produit une fois confirmé
@@ -66,15 +67,30 @@ const Admin = () => {
   //   });
   // }
 
-  // function getProducts() {
-  //   ref.onSnapshot((querySnapshot) => {
-  //     const items = [];
-  //     querySnapshot.forEach((doc) => {
-  //       items.push(doc.data());
-  //     });
-  //     setProducts(items);
-  //   });
-  // }
+  Axios.defaults.withCredentials = true;
+
+  const createProduct = () => {
+    Axios.get("http://localhost:3001/insert-products", {
+      product_name: product_name,
+      product_leading: product_leading,
+      category: category,
+      description: description,
+      price: price,
+      //product_img: product_img,
+    }).then((response) => {
+      setProducts(response.data)
+    });
+  };
+
+  const getProducts = () => {
+    Axios.get("http://localhost:3001/select-products").then((response) => {
+      setProducts(response.data)
+    });
+  };
+
+  useEffect(() => {
+    getProducts();
+  }, []);
 
   // useEffect(() => {
   //   checkUserRole();
@@ -139,7 +155,7 @@ const Admin = () => {
   //     });
   // }
 
-  // fonction d'upload d'image
+  // //fonction d'upload d'image
   // const handleUpload = (image) => {
   //   const uploadTask = storage.ref(`images/${image.name}`).put(image);
   //   uploadTask.on("state_changed", async () => {
@@ -157,7 +173,6 @@ const Admin = () => {
     <>
       <NavBar />
       <div
-        style={{ display: "none" }}
         className="back-office-container"
         id="back-office"
       >
@@ -174,31 +189,34 @@ const Admin = () => {
             <Card.Body>
               <input
                 type="file"
-                onChange={(e) => {
-                  //handleUpload(e.target.files[0]);
-                }}
-                ref={urlRef}
+                // onChange={(e) => {
+                //   handleUpload(e.target.files[0]);
+                // }}
+                //ref={urlRef}
                 placeholder="Ajouter une image"
               ></input>
               <Card.Title>
                 <input
                   type="text"
-                  //onChange={(e) => setTitle(e.target.value)}
-                  ref={titleRef}
+                  value={product_name}
+                  onChange={(e) => setName(e.target.value)}
+                  //ref={titleRef}
                   placeholder="Entrez un nom"
                 />
               </Card.Title>
               <Card.Text>
                 <input
-                  //onChange={(e) => setPrice(e.target.value)}
-                  ref={priceRef}
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                  //ref={priceRef}
                   placeholder="Entrez un prix"
                 />
               </Card.Text>
               <Card.Text>
                 <select
                   id="choose-category"
-                  //onChange={(e) => setCategory(e.target.value)}
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
                 >
                   <option value="Intérieur" label="Intérieur"></option>
                   <option value="Extérieur" label="Extérieur"></option>
@@ -206,20 +224,22 @@ const Admin = () => {
               </Card.Text>
               <Card.Text>
                 <textarea
-                  //onChange={(e) => setDesc(e.target.value)}
-                  ref={descRef}
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  //ref={descRef}
                   placeholder="Entrez une description"
                 />
               </Card.Text>
               <Card.Text>
                 <textarea
-                  //onChange={(e) => setLeading(e.target.value)}
-                  ref={leadingRef}
+                  value={product_leading}
+                  onChange={(e) => setLeading(e.target.value)}
+                  //ref={leadingRef}
                   placeholder="Entrez l'entête"
                 />
               </Card.Text>
               <Button
-                //onClick={() => addProduct()}
+                onClick={() => createProduct()}
                 style={{ backgroundColor: "#0f6860" }}
               >
                 Ajouter le produit
@@ -243,21 +263,21 @@ const Admin = () => {
           <tbody>
             {products.map((product) => (
               <tr>
-                <td>{product.id}</td>
+                <td>{product.id_product}</td>
                 <td>
-                  {product.title}
+                  {product.name_product}
                   <input
                     className="df"
                     type="text"
-                    onChange={(e) => setTitle(e.target.value)}
+                    //onChange={(e) => setTitle(e.target.value)}
                     placeholder="Modifier le nom"
                   />
                 </td>
                 <td>
-                  {product.desc}
+                  {product.description}
                   <textarea
                     className="df"
-                    onChange={(e) => setDesc(e.target.value)}
+                    //onChange={(e) => setDesc(e.target.value)}
                     placeholder="Modifier la description"
                   />
                 </td>
@@ -265,12 +285,12 @@ const Admin = () => {
                   {product.leading}
                   <textarea
                     className="df"
-                    onChange={(e) => setLeading(e.target.value)}
+                    //onChange={(e) => setLeading(e.target.value)}
                     placeholder="Modifier l'entête"
                   />
                 </td>
                 <td>
-                  <img src={product.url} width="100" height="100" />
+                  <img src={`products_img/${product.img_product}`} width="100" height="100" />
                   <input
                     type="file"
                     onChange={(e) => {
