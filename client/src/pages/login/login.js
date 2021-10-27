@@ -18,14 +18,14 @@ function Login() {
       email: email,
       password: password,
     }).then((response) => {
-      console.log("voici ta réponse:", response);
+      // si auth est false, alors le login status est false
       if (!response.data.auth) {
         setLoginStatus(false);
       } else {
-        console.log(response.data);
+        // on stocke localement le token
+        localStorage.setItem("token", response.data.token);
         setLoginStatus(true);
       }
-      console.log(response.data);
     });
   };
 
@@ -37,6 +37,14 @@ function Login() {
       }
     });
   }, []);
+
+  const userAuthenticated = () => {
+    Axios.get("http://localhost:3001/isUserAuth", {
+      headers: { "x-access-token": localStorage.getItem("token") },
+    }).then((response) => {
+      console.log(response);
+    });
+  };
 
   return (
     <div>
@@ -75,7 +83,11 @@ function Login() {
                   Connexion
                 </Button>
                 <h1>
-                  {loginStatus && <button>Check if Authenticated</button>}
+                  {loginStatus && (
+                    <Button onClick={userAuthenticated}>
+                      Check if Authenticated
+                    </Button>
+                  )}
                 </h1>
               </Form>
             </div>

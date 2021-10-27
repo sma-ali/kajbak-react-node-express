@@ -86,8 +86,8 @@ app.post("/register", (req, res) => {
 
 // middleware pour vérifier le token
 const verifyJWT = (req, res, next) => {
-  // we grab the token from the headers
-  const token = req.headers("x-access-token");
+  // we grab the token from the headers, called x access token
+  const token = req.headers["x-access-token"];
 
   //si pas de token
   if (!token) {
