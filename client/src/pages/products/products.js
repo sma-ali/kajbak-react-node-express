@@ -144,13 +144,13 @@ function Products() {
                         variant="top"
                         width={171}
                         height={280}
-                        src={`products_img/${product.img_product}`}
+                        src={`products_img/${product.product_img}`}
                       />
                       <Card.Body>
-                        <Card.Title>{product.name_product}</Card.Title>
+                        <Card.Title>{product.product_name}</Card.Title>
                         <Card.Text>{product.description}</Card.Text>
                         <Button
-                          href={`product/${product.id_product}`}
+                          href={`product/${product.product_id}`}
                           style={{ backgroundColor: "#0f6860" }}
                         >
                           Voir le produit &gt;

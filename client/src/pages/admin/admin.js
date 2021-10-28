@@ -70,7 +70,7 @@ const Admin = () => {
   Axios.defaults.withCredentials = true;
 
   const createProduct = () => {
-    Axios.get("http://localhost:3001/insert-products", {
+    Axios.post("http://localhost:3001/insert-products", {
       product_name: product_name,
       product_leading: product_leading,
       category: category,
@@ -181,20 +181,16 @@ const Admin = () => {
           <h3>Ajouter un produit</h3>
           <Card
             style={{
-              width: "18rem",
+              width: "20rem",
               margin: "10px",
               backgroundColor: "#faf6ee",
+              display: "block",
+              marginBottom: "1em",
+              marginLeft: "auto",
+              marginRight: "auto",
             }}
           >
             <Card.Body>
-              <input
-                type="file"
-                // onChange={(e) => {
-                //   handleUpload(e.target.files[0]);
-                // }}
-                //ref={urlRef}
-                placeholder="Ajouter une image"
-              ></input>
               <Card.Title>
                 <input
                   type="text"
@@ -202,14 +198,21 @@ const Admin = () => {
                   onChange={(e) => setName(e.target.value)}
                   //ref={titleRef}
                   placeholder="Entrez un nom"
+                  style={{
+                    width: "100%",
+                  }}
                 />
               </Card.Title>
               <Card.Text>
                 <input
                   value={price}
+                  type="number"
                   onChange={(e) => setPrice(e.target.value)}
                   //ref={priceRef}
                   placeholder="Entrez un prix"
+                  style={{
+                    width: "100%",
+                  }}
                 />
               </Card.Text>
               <Card.Text>
@@ -217,6 +220,9 @@ const Admin = () => {
                   id="choose-category"
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
+                  style={{
+                    width: "100%",
+                  }}
                 >
                   <option value="Intérieur" label="Intérieur"></option>
                   <option value="Extérieur" label="Extérieur"></option>
@@ -228,6 +234,9 @@ const Admin = () => {
                   onChange={(e) => setDescription(e.target.value)}
                   //ref={descRef}
                   placeholder="Entrez une description"
+                  style={{
+                    width: "100%",
+                  }}
                 />
               </Card.Text>
               <Card.Text>
@@ -236,8 +245,23 @@ const Admin = () => {
                   onChange={(e) => setLeading(e.target.value)}
                   //ref={leadingRef}
                   placeholder="Entrez l'entête"
+                  style={{
+                    width: "100%",
+                  }}
                 />
               </Card.Text>
+              <input
+                type="file"
+                // onChange={(e) => {
+                //   handleUpload(e.target.files[0]);
+                // }}
+                //ref={urlRef}
+                placeholder="Ajouter une image"
+                style={{
+                  width: "100%",
+                  marginBottom: "20px",
+                }}
+              ></input>
               <Button
                 onClick={() => createProduct()}
                 style={{ backgroundColor: "#0f6860" }}
@@ -247,6 +271,7 @@ const Admin = () => {
             </Card.Body>
           </Card>
         </div>
+        {/* Tableau des produits existants. */}
         <Table striped bordered hover>
           <thead>
             <tr>
@@ -263,9 +288,9 @@ const Admin = () => {
           <tbody>
             {products.map((product) => (
               <tr>
-                <td>{product.id_product}</td>
+                <td>{product.product_id}</td>
                 <td>
-                  {product.name_product}
+                  {product.product_name}
                   <input
                     className="df"
                     type="text"
@@ -282,7 +307,7 @@ const Admin = () => {
                   />
                 </td>
                 <td>
-                  {product.leading}
+                  {product.product_leading}
                   <textarea
                     className="df"
                     //onChange={(e) => setLeading(e.target.value)}
@@ -290,7 +315,7 @@ const Admin = () => {
                   />
                 </td>
                 <td>
-                  <img src={`products_img/${product.img_product}`} width="100" height="100" />
+                  <img src={`products_img/${product.product_img}`} width="100" height="100" />
                   <input
                     type="file"
                     onChange={(e) => {

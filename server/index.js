@@ -227,17 +227,29 @@ app.get("/select-products", (req, res) => {
   });
 });
 
+app.get("/single-products", (req, res) => {
+  const product_id = req.body.product_id;
+  db.query("SELECT * FROM products WHERE product_id = ?",
+  [product_id], (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(result);
+    }
+  });
+});
+
 //Insert products
-app.get("/insert-products", (req, res) => {
+app.post("/insert-products", (req, res) => {
   const product_name = req.body.product_name;
   const product_leading = req.body.product_leading;
   const category = req.body.category;
   const description = req.body.description;
   const price = req.body.price;
-  const product_img = req.body.product_img;
+  //const product_img = req.body.product_img;
   db.query(
     "INSERT INTO products (product_name, product_leading, category, description, price, product_img, state) VALUES(?, ?, ?, ?, ?, ?, ?)",
-    [product_name, product_leading, category, description, price, product_img, 1],
+    [product_name, product_leading, category, description, price, "chaise.jpg", 1],
     (err, result) => {
     if (err) {
       console.log(err);
