@@ -1,6 +1,7 @@
 // in order to grab something from the express/node api we need this
 // to parse automatically every json bject that i sent from front end
 const express = require("express");
+require('dotenv').config()
 
 const mysql = require("mysql");
 
@@ -49,10 +50,10 @@ app.use(
 );
 
 const db = mysql.createConnection({
-  user: "root",
-  host: "localhost",
-  password: process.env.DB_PASS,
-  database: "kajbak",
+    host : process.env.DB_HOST,
+    user : process.env.DB_USER,
+    password : process.env.DB_PASS,
+    database : process.env.DB_NAME
 });
 
 // create user
