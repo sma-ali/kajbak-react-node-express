@@ -11,10 +11,10 @@ const Admin = () => {
   const [products, setProducts] = useState([]);
   const [product_name, setName] = useState("");
   const [product_leading, setLeading] = useState("");
+  const [product_img, setImg] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("Intérieur");
   const [price, setPrice] = useState(null);
-  //const [product_img, setUrl] = useState("");
 
   // on définit des réf pour pouvoir réinitialiser
   // le formulaire d'ajout de produit une fois confirmé
@@ -25,49 +25,9 @@ const Admin = () => {
   const leadingRef = useRef(null);
   const urlRef = useRef(null);
 
-  // définition des chemins vers firestore / storage
-
-  // const ref = firebase.firestore().collection("products");
-  // const userRef = firebase.firestore().collection("users_info");
-  // const storage = firebase.storage();
-
-  // début fonction vérification utilisateur
-
-  // function checkUserRole() {
-  //   // si utilisateur connecté
-  //   firebase.auth().onAuthStateChanged((user) => {
-  //     if (user) {
-  //       userRef
-  //         // cherche où l'id de l'user connecté correspond dans les users existants
-  //         .where("id", "==", user.uid)
-  //         .get()
-  //         .then((querySnapshot) => {
-  //           if (!querySnapshot.empty) {
-  //             // récupère les données de l'user
-  //             const userInfo = querySnapshot.docs[0].data();
-  //             // si role de l'user = 0 ou nul, accès refusé
-  //             if (userInfo.role == 0 || userInfo.role == null) {
-  //               alert("Accès refusé, vous n'avez pas la permission requise.");
-  //               window.location.href = "/";
-  //             } else if (userInfo.role == 1) {
-  //               // si role = 1, le back office apparait devant l'administrateur
-  //               document.getElementById("back-office").style.display = "block";
-  //               // puis on liste tous les produits pour le back office
-  //               getProducts();
-  //             }
-  //           } else {
-  //             alert("Accès refusé");
-  //             window.location.href = "/";
-  //           }
-  //         });
-  //     } else {
-  //       alert("Accès refusé, vous n'êtes pas connecté.");
-  //       window.location.href = "/";
-  //     }
-  //   });
-  // }
-
   Axios.defaults.withCredentials = true;
+
+  // création produit
 
   const createProduct = () => {
     Axios.post("http://localhost:3001/insert-products", {
@@ -76,15 +36,17 @@ const Admin = () => {
       category: category,
       description: description,
       price: price,
-      //product_img: product_img,
+      product_img: product_img,
     }).then((response) => {
-      setProducts(response.data)
+      setProducts(response.data);
     });
   };
 
+  // récupération produits existants
+
   const getProducts = () => {
     Axios.get("http://localhost:3001/select-products").then((response) => {
-      setProducts(response.data)
+      setProducts(response.data);
     });
   };
 
@@ -92,90 +54,22 @@ const Admin = () => {
     getProducts();
   }, []);
 
-  // useEffect(() => {
-  //   checkUserRole();
-  // }, []);
+  // suppression produit
 
-  // // début fonction ajout produit
-  // function addProduct() {
-  //   // on définit l'id via uuidv4
-  //   const id = uuidv4();
-  //   // on enregistre les données rentrées par l'admin
-  //   ref
-  //     .doc(id)
-  //     .set({
-  //       title,
-  //       desc,
-  //       id,
-  //       url,
-  //       price,
-  //       category,
-  //       leading,
-  //     })
-  //     // puis on réinitialise les inputs
-  //     .then(() => {
-  //       priceRef.current.value = "";
-  //       titleRef.current.value = "";
-  //       descRef.current.value = "";
-  //       leadingRef.current.value = "";
-  //       urlRef.current.value = "";
-  //     })
-  //     .catch((err) => {
-  //       console.error(err);
-  //     });
-  // }
-
-  // function deleteProduct(product) {
-  //   ref
-  //     .doc(product.id)
-  //     .delete()
-  //     .catch((err) => {
-  //       console.error(err);
-  //     });
-  // }
-
-  // function editProduct(product) {
-  //   ref
-  //     .doc(product.id)
-  //     .update({
-  //       id: product.id,
-  //       // si l'input de title n'est pas vide
-  //       // alors prends sa valeur rentrée et update le title du produit dans la bdd.
-  //       // si l'input de title est vide, alors tu l'updates en lui attribuant la valeur
-  //       //qu'il a déjà dans la base de donnée. donc ça met à jour mais ça ne modifie rien.
-  //       title: title ? title : product.title,
-  //       desc: desc ? desc : product.desc,
-  //       url: url ? url : product.url,
-  //       price: price ? price : product.price,
-  //       category: category ? category : product.category,
-  //       leading: leading ? leading : product.leading,
-  //     })
-  //     .catch((err) => {
-  //       console.error(err);
-  //     });
-  // }
-
-  // //fonction d'upload d'image
-  // const handleUpload = (image) => {
-  //   const uploadTask = storage.ref(`images/${image.name}`).put(image);
-  //   uploadTask.on("state_changed", async () => {
-  //     await storage
-  //       .ref("images")
-  //       .child(image.name)
-  //       .getDownloadURL()
-  //       .then((url) => {
-  //         setUrl(url);
-  //       });
-  //   });
-  // };
+  const deleteProduct = (id) => {
+    Axios.delete(`http://localhost:3001/delete/${id}`).then((response) => {
+      setProducts(
+        products.filter((val) => {
+          return val.id !== id;
+        })
+      );
+    });
+  };
 
   return (
     <>
       <NavBar />
-      <div
-        className="back-office-container"
-        id="back-office"
-      >
+      <div className="back-office-container" id="back-office">
         <h1 id="top">Back-office</h1>
         <div className="inputBox">
           <h3>Ajouter un produit</h3>
@@ -194,7 +88,7 @@ const Admin = () => {
               <Card.Title>
                 <input
                   type="text"
-                  value={product_name}
+                  // value={product_name}
                   onChange={(e) => setName(e.target.value)}
                   //ref={titleRef}
                   placeholder="Entrez un nom"
@@ -205,7 +99,7 @@ const Admin = () => {
               </Card.Title>
               <Card.Text>
                 <input
-                  value={price}
+                  // value={price}
                   type="number"
                   onChange={(e) => setPrice(e.target.value)}
                   //ref={priceRef}
@@ -218,7 +112,7 @@ const Admin = () => {
               <Card.Text>
                 <select
                   id="choose-category"
-                  value={category}
+                  // value={category}
                   onChange={(e) => setCategory(e.target.value)}
                   style={{
                     width: "100%",
@@ -230,7 +124,7 @@ const Admin = () => {
               </Card.Text>
               <Card.Text>
                 <textarea
-                  value={description}
+                  // value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   //ref={descRef}
                   placeholder="Entrez une description"
@@ -241,7 +135,7 @@ const Admin = () => {
               </Card.Text>
               <Card.Text>
                 <textarea
-                  value={product_leading}
+                  // value={product_leading}
                   onChange={(e) => setLeading(e.target.value)}
                   //ref={leadingRef}
                   placeholder="Entrez l'entête"
@@ -252,9 +146,10 @@ const Admin = () => {
               </Card.Text>
               <input
                 type="file"
-                // onChange={(e) => {
-                //   handleUpload(e.target.files[0]);
-                // }}
+                onChange={(e) => {
+                  setImg(e.target.value);
+                  // handleUpload(e.target.files[0]);
+                }}
                 //ref={urlRef}
                 placeholder="Ajouter une image"
                 style={{
@@ -287,7 +182,7 @@ const Admin = () => {
           </thead>
           <tbody>
             {products.map((product) => (
-              <tr>
+              <tr key={product.product_id}>
                 <td>{product.product_id}</td>
                 <td>
                   {product.product_name}
@@ -315,7 +210,11 @@ const Admin = () => {
                   />
                 </td>
                 <td>
-                  <img src={`products_img/${product.product_img}`} width="100" height="100" />
+                  <img
+                    src={`products_img/${product.product_img}`}
+                    width="100"
+                    height="100"
+                  />
                   <input
                     type="file"
                     onChange={(e) => {
@@ -339,7 +238,9 @@ const Admin = () => {
                   />
                 </td>
                 <td>
-                  <button /*onClick={() => editProduct(product)}*/>Modifier</button>
+                  <button /*onClick={() => editProduct(product)}*/>
+                    Modifier
+                  </button>
                   <button /*onClick={() => deleteProduct(product)}*/>
                     Supprimer
                   </button>

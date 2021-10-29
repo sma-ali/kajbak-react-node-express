@@ -6,6 +6,8 @@ import Footer from "../../component/footer/footer";
 import Axios from "axios";
 
 function Register() {
+  // initialisation des hooks
+
   const [firstname, setFirstName] = useState("");
   const [lastname, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -17,6 +19,9 @@ function Register() {
   const [phonenumber, setPhoneNumber] = useState("");
 
   Axios.defaults.withCredentials = true;
+
+  // fonction register avec requete qui envoie les données entrées
+  // et les enrengistre dans la bdd grâce au serveur en back
 
   const register = () => {
     Axios.post("http://localhost:3001/register", {
@@ -32,74 +37,6 @@ function Register() {
       console.log(response);
     });
   };
-  // const [name, setName] = useState("");
-  // const [age, setAge] = useState(0);
-  // const [country, setCountry] = useState("");
-  // const [position, setPosition] = useState("");
-  // const [wage, setWage] = useState(0);
-
-  // const [newWage, setNewWage] = useState(0);
-
-  // const [employeeList, setEmployeeList] = useState([]);
-
-  // const addEmployee = () => {
-  //   console.log(name);
-  //   Axios.post("http://localhost:3001/create", {
-  //     name: name,
-  //     age: age,
-  //     country: country,
-  //     position: position,
-  //     wage: wage,
-  //   }).then(() => {
-  //     setEmployeeList([
-  //       ...employeeList,
-  //       {
-  //         name: name,
-  //         age: age,
-  //         country: country,
-  //         position: position,
-  //         wage: wage,
-  //       },
-  //     ]);
-  //   });
-  // };
-
-  // const getEmployees = () => {
-  //   Axios.get("http://localhost:3001/employees").then((response) => {
-  //     setEmployeeList(response.data);
-  //   });
-  // };
-
-  // const updateEmployeeWage = (id) => {
-  //   Axios.put("http://localhost:3001/update", { wage: newWage, id: id }).then(
-  //     (response) => {
-  //       setEmployeeList(
-  //         employeeList.map((val) => {
-  //           return val.id === id
-  //             ? {
-  //                 id: val.id,
-  //                 name: val.name,
-  //                 country: val.country,
-  //                 position: val.position,
-  //                 age: val.age,
-  //                 wage: newWage,
-  //               }
-  //             : val;
-  //         })
-  //       );
-  //     }
-  //   );
-  // };
-
-  // const deleteEmployee = (id) => {
-  //   Axios.delete(`http://localhost:3001/delete/${id}`).then((response) => {
-  //     setEmployeeList(
-  //       employeeList.filter((val) => {
-  //         return val.id !== id;
-  //       })
-  //     );
-  //   });
-  // };
 
   return (
     <div>

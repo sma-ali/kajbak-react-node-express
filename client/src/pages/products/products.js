@@ -15,54 +15,22 @@ import Footer from "../../component/footer/footer";
 import Axios from "axios";
 
 function Products() {
-
   const [products, setProducts] = useState([]);
 
   Axios.defaults.withCredentials = true;
 
+  // on récupère tous les produits existants avec une requête GET
+
   const getProducts = () => {
     Axios.get("http://localhost:3001/select-products").then((response) => {
-      setProducts(response.data)
+      // les données récupérées sont passées dans products
+      setProducts(response.data);
     });
   };
 
-  // on initialise les hooks
-
-  // const [products, setProducts] = useState([]);
-  // const [categoryFilter, setCategoryFilter] = useState("");
-  // const [req, setReq] = useState("");
-
-  // référence à la collection products
-
-  // const ref = firebase.firestore().collection("products");
-
-  // récupère tous les produits si req est vide par défaut
-
-  // function getProducts() {
-  //   if (req == "") {
-  //     ref.onSnapshot((querySnapshot) => {
-  //       const items = [];
-  //       querySnapshot.forEach((doc) => {
-  //         items.push(doc.data());
-  //       });
-  //       setProducts(items);
-  //     });
-  //   } else {
-  //     // si la requete n'est pas vide alors cherche les produits dont le titre correspond à la requete
-
-  //     ref.where("title", "==", req).onSnapshot((querySnapshot) => {
-  //       const items = [];
-  //       querySnapshot.forEach((doc) => {
-  //         items.push(doc.data());
-  //       });
-  //       setProducts(items);
-  //     });
-  //   }
-  // }
-
-   useEffect(() => {
-     getProducts();
-   }, []);
+  useEffect(() => {
+    getProducts();
+  }, []);
 
   return (
     <div>
@@ -131,14 +99,14 @@ function Products() {
             <p className="title-col">Les derniers produits</p>
             <div>
               <Row className="justify-content-around">
-                 {products.map((product) => { 
-                  return ( 
+                {products.map((product) => {
+                  return (
                     <Card
                       style={{
                         width: "18rem",
                         margin: "10px",
                       }}
-                      key={product.id_product}
+                      key={product.product_id}
                     >
                       <Card.Img
                         variant="top"
@@ -157,8 +125,8 @@ function Products() {
                         </Button>
                       </Card.Body>
                     </Card>
-                    );
-                 })} 
+                  );
+                })}
               </Row>
             </div>
           </Col>

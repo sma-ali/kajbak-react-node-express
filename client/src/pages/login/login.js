@@ -29,23 +29,6 @@ function Login() {
     });
   };
 
-  useEffect(() => {
-    Axios.get("http://localhost:3001/login").then((response) => {
-      // si logged in est true, alors on affiche le nom de l'user
-      if (response.data.loggedIn === true) {
-        setLoginStatus(response.data.user[0].firstname);
-      }
-    });
-  }, []);
-
-  const userAuthenticated = () => {
-    Axios.get("http://localhost:3001/isUserAuth", {
-      headers: { "x-access-token": localStorage.getItem("token") },
-    }).then((response) => {
-      console.log(response);
-    });
-  };
-
   return (
     <div>
       <NavBar />
@@ -82,13 +65,6 @@ function Login() {
                 >
                   Connexion
                 </Button>
-                <h1>
-                  {loginStatus && (
-                    <Button onClick={userAuthenticated}>
-                      Check if Authenticated
-                    </Button>
-                  )}
-                </h1>
               </Form>
             </div>
           </Col>
