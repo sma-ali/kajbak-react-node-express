@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import "./product.css";
 import { Container, Row, Button, Col, Breadcrumb, Card } from "react-bootstrap";
 import NavBar from "../../component/navbar/navbar";
@@ -10,17 +10,18 @@ function Product () {
 
   var pathArray = window.location.pathname.split("/");
   const productID = pathArray[2];
-  const { currentUser } = useContext();
-  console.log(currentUser);
 
   Axios.defaults.withCredentials = true;
   const [product, setProducts] = useState("");
 
   //Obtention des produits
   const getSingleProduct = () => {
-    Axios.get("http://localhost:3001/single-products").then((response) => {
-      setProducts(response.data)
-    });
+    Axios.get(`http://localhost:3001/single-products/${productID}`).then(
+      (response) => {
+        // la requête renvoie un tableau, on prend le premier
+        setProducts(response.data[0] || "");
+      }
+    );
   };
 
   useEffect(() => {
