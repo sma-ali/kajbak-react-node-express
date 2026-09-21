@@ -24,12 +24,22 @@ const jwt = require("jsonwebtoken");
 
 const app = express();
 
+// mieux vaut planter au démarrage qu'au milieu d'une requête
+["SESSION_SECRET", "JWT_SECRET"].forEach((variable) => {
+  if (!process.env[variable]) {
+    console.error(
+      `Variable d'environnement manquante : ${variable}. Voir .env.example.`
+    );
+    process.exit(1);
+  }
+});
+
 app.use(express.json());
 // make connection bewteen front and back by using sessions and cookies
 app.use(
   cors({
     origin: ["http://localhost:3000"],
-    methods: ["GET", "POST"],
+    methods: ["GET", "POST", "DELETE"],
     credentials: true,
   })
 );
@@ -40,7 +50,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   session({
     key: "userId",
-    secret: "potato",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -95,7 +105,7 @@ const verifyJWT = (req, res, next) => {
     res.send("Yo, we need a token bro! please give it to us next time");
   } else {
     //on vérifie le token
-    jwt.verify(token, "bigpotato", (err, decoded) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err) {
         res.json({ auth: false, message: "U failed to authenticate" });
       } else {
@@ -141,9 +151,9 @@ app.post("/login", (req, res) => {
             // l'utilisateur est enregistré dans une session créée pour ce dernier
             req.session.user = result;
             const id = result[0].id;
-            const token = jwt.sign({ id }, "bigpotato", {
+            const token = jwt.sign({ id }, process.env.JWT_SECRET, {
               expiresIn: 300,
-            }); // env à placer pour le secret
+            });
             //envoie le json avec auth en true, le token et l'user
             res.json({ auth: true, token: token, result: result });
           } else {
@@ -160,63 +170,6 @@ app.post("/login", (req, res) => {
   });
 });
 
-// app.post("/create", (req, res) => {
-//   const name = req.body.name;
-//   const age = req.body.age;
-//   const country = req.body.country;
-//   const position = req.body.position;
-//   const wage = req.body.wage;
-
-//   db.query(
-//     "INSERT INTO employees (name, age, country, position, wage) VALUES(?, ?, ?, ?, ?)",
-//     [name, age, country, position, wage],
-//     (err, result) => {
-//       if (err) {
-//         console.log(err);
-//       } else {
-//         res.send("values inserted");
-//       }
-//     }
-//   );
-// });
-
-app.get("/employees", (req, res) => {
-  db.query("SELECT * FROM employees", (err, result) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.send(result);
-    }
-  });
-});
-
-app.put("/update", (req, res) => {
-  const id = req.body.id;
-  const wage = req.body.wage;
-  db.query(
-    "UPDATE employees SET wage = ? WHERE  id = ?",
-    [wage, id],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send(result);
-      }
-    }
-  );
-});
-
-app.delete(`/delete/:id`, (req, res) => {
-  const id = req.params.id;
-  db.query("DELETE FROM employees WHERE id = ?", id, (err, result) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.send(result);
-    }
-  });
-});
-
 //Select products
 app.get("/select-products", (req, res) => {
   db.query("SELECT * FROM products WHERE state = 1", (err, result) => {
@@ -228,8 +181,9 @@ app.get("/select-products", (req, res) => {
   });
 });
 
-app.get("/single-products", (req, res) => {
-  const product_id = req.body.product_id;
+// l'id passe par l'url : un GET n'a pas de body, donc req.body était vide
+app.get("/single-products/:id", (req, res) => {
+  const product_id = req.params.id;
   db.query("SELECT * FROM products WHERE product_id = ?",
   [product_id], (err, result) => {
     if (err) {
@@ -260,27 +214,21 @@ app.post("/insert-products", (req, res) => {
   });
 });
 
-//Update products
-app.get("/update-products", (req, res) => {
-  db.query("SELECT * FROM products WHERE state = 1", (err, result) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.send(result);
-    }
-  });
-});
-
 //Delete products
-app.get("/delete-products", (req, res) => {
-  const id = req.params.id;
-  db.query("DELETE FROM products WHERE id_product = ?", id, (err, result) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.send(result);
+app.delete("/delete-products/:id", (req, res) => {
+  const product_id = req.params.id;
+  db.query(
+    "DELETE FROM products WHERE product_id = ?",
+    [product_id],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send({ error: "Suppression impossible" });
+      } else {
+        res.send(result);
+      }
     }
-  });
+  );
 });
 
 app.listen(3001, () => {
