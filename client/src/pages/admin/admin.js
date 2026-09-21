@@ -56,14 +56,16 @@ const Admin = () => {
 
   // suppression produit
 
-  const deleteProduct = (id) => {
-    Axios.delete(`http://localhost:3001/delete/${id}`).then((response) => {
-      setProducts(
-        products.filter((val) => {
-          return val.id !== id;
-        })
-      );
-    });
+  const deleteProduct = (product_id) => {
+    Axios.delete(`http://localhost:3001/delete-products/${product_id}`).then(
+      () => {
+        setProducts(
+          products.filter((product) => {
+            return product.product_id !== product_id;
+          })
+        );
+      }
+    );
   };
 
   return (
@@ -241,7 +243,7 @@ const Admin = () => {
                   <button /*onClick={() => editProduct(product)}*/>
                     Modifier
                   </button>
-                  <button /*onClick={() => deleteProduct(product)}*/>
+                  <button onClick={() => deleteProduct(product.product_id)}>
                     Supprimer
                   </button>
                 </td>
